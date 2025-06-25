@@ -26,9 +26,8 @@ export const ArticleParamsForm = ({ onApply }: Props) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formData, setFormData] =
 		useState<ArticleStateType>(defaultArticleState);
-	const asideRef = useRef<HTMLDivElement>(null); // 👈 создаём ref на aside
+	const asideRef = useRef<HTMLDivElement>(null);
 
-	// 👇 подключаем хук закрытия при клике вне
 	useOutsideClickClose({
 		isOpen: isMenuOpen,
 		onChange: setIsMenuOpen,
