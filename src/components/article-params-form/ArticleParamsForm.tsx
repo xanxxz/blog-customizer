@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import clsx from 'clsx';
+import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
@@ -14,7 +15,6 @@ import {
 	defaultArticleState,
 	ArticleStateType,
 } from 'src/constants/articleProps';
-import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 import styles from './ArticleParamsForm.module.scss';
 
