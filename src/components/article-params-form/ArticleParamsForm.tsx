@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import clsx from 'clsx';
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
@@ -14,6 +14,7 @@ import {
 	defaultArticleState,
 	ArticleStateType,
 } from 'src/constants/articleProps';
+import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 import styles from './ArticleParamsForm.module.scss';
 
@@ -22,9 +23,17 @@ type Props = {
 };
 
 export const ArticleParamsForm = ({ onApply }: Props) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formData, setFormData] =
 		useState<ArticleStateType>(defaultArticleState);
+	const asideRef = useRef<HTMLDivElement>(null); // 👈 создаём ref на aside
+
+	// 👇 подключаем хук закрытия при клике вне
+	useOutsideClickClose({
+		isOpen: isMenuOpen,
+		onChange: setIsMenuOpen,
+		rootRef: asideRef,
+	});
 
 	const handleChange = <K extends keyof ArticleStateType>(
 		field: K,
@@ -47,9 +56,15 @@ export const ArticleParamsForm = ({ onApply }: Props) => {
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen((prev) => !prev)} />
+			<ArrowButton
+				isOpen={isMenuOpen}
+				onClick={() => setIsMenuOpen((prev) => !prev)}
+			/>
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
+				ref={asideRef}
+				className={clsx(styles.container, {
+					[styles.container_open]: isMenuOpen,
+				})}>
 				<form className={styles.form} onSubmit={onSubmit}>
 					<div className={styles.topContainer}>
 						<h1 className={styles.formTitle}>Задайте параметры</h1>
